@@ -66,6 +66,7 @@ const UserManagement = () => {
     try {
       const response = await axios.get(`http://localhost:8000/read/username/${searchUsername}`)
       const data = response.data;
+      console.log(data);
       if(data.error) {
         setSearchEmail([{id: 404, email: 'Not Found'}]);
       }

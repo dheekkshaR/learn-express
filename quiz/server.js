@@ -54,3 +54,28 @@ app.post('/write/adduser', (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+
+
+app.use('/read/username/:name', addMsgToRequest);
+const getUserByUsername = function (req, res) {
+  console.log("getUserByUsername");
+  const username = req.params.name; // Get the username from request parameters
+  const user = req.users.find(user => user.username === username); // Find user by username
+  console.log(user);
+  if (user) {
+    req.userEmail = user.email; // Add user's email to request object
+    return res.status(200).json(
+      [{
+        email: user.email
+      }]
+    )
+  } else {
+    return res.status(404).json({
+      error: { message: 'User not found', status: 404 }
+    });
+  }
+};
+
+app.get('/read/username/:name', getUserByUsername);
+// Middleware function to extract user's email based on username
